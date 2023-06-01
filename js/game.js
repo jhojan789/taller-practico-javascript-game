@@ -7,6 +7,11 @@ const btnDown = document.getElementById('down');
 const btnLeft = document.getElementById('left');
 const btnRight = document.getElementById('right');
 
+const playerPosition = {
+  x: undefined,
+  y: undefined,
+};
+
 btnUp.addEventListener('click', moveUp);
 btnDown.addEventListener('click', moveDown);
 btnLeft.addEventListener('click', moveLeft);
@@ -23,6 +28,8 @@ function moveByKeyboard(event){
 
 function moveUp(){
   console.log('Moving up');
+  playerPosition.y -= elementSize;
+  movePlayer();
 }
 function moveDown(){
   console.log('Moving down');
@@ -61,7 +68,7 @@ function startGame(){
   
   game.textAlign = 'end'
 
-  const map = maps[1];
+  const map = maps[0];
   const mapRows = map.trim().split('\n');
   const mapRowsCols = mapRows.map(row => row.trim().split(''));
   
@@ -72,25 +79,21 @@ function startGame(){
       const posX = elementSize * (colIndex + 1);
       const posY = elementSize * (rowIndex + 1);
       game.fillText(emoji,posX,posY);
-
-      // console.log({col});
-
-
+      
+      
+      if(col == 'O'){
+        playerPosition.x = posX;
+        playerPosition.y = posY;
+        movePlayer();
+      }
     });
   });
-
-
-  // for (let row = 1; row <= 10; row++) {
-  //   for (let col = 1; col <= 10; col++) {
-  //     game.fillText(emojis[mapRowsCols[row-1][col-1]],elementSize * col,elementSize * row);
-  //   }
-  // }
-  console.log(window.innerHeight, window.innerWidth);
-  console.log(canvasSize);
-  console.log(elementSize);
+    
 }
 
-
+function movePlayer(){
+  game.fillText(emojis['PLAYER'],playerPosition.x,playerPosition.y);
+}
 
 
 
