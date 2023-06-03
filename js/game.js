@@ -12,6 +12,11 @@ const playerPosition = {
   y: undefined,
 };
 
+const giftPosition = {
+  x: undefined,
+  y: undefined,
+};
+
 btnUp.addEventListener('click', moveUp);
 btnDown.addEventListener('click', moveDown);
 btnLeft.addEventListener('click', moveLeft);
@@ -35,6 +40,7 @@ function setCanvasSize(){
 
   elementSize = canvasSize / 10;
 
+  
 
   startGame();
 }
@@ -65,6 +71,9 @@ function startGame(){
           playerPosition.y = posY;
           
         }
+      }else if(col == 'I'){
+        giftPosition.x = posX;
+        giftPosition.y = posY;
       }
       game.fillText(emoji,posX,posY);
     });
@@ -76,7 +85,17 @@ function startGame(){
 
 
 function movePlayer(){
+  const isGiftCollisionX = giftPosition.x.toFixed(2) == playerPosition.x.toFixed(2);
+  const isGiftCollisionY = giftPosition.y.toFixed(2) == playerPosition.y.toFixed(2);
+  const isGiftCollision = isGiftCollisionX && isGiftCollisionY; 
+  
+  if(isGiftCollision){
+    console.log('Gift collision');
+  }
+
   game.fillText(emojis['PLAYER'],playerPosition.x,playerPosition.y);
+
+
 }
 
 function moveUp(){
