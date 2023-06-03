@@ -23,22 +23,19 @@ window.addEventListener('resize',setCanvasSize);
 
 
 function setCanvasSize(){
-  let canvasSize;
-
+  
   if(window.innerHeight > window.innerWidth){
     canvasSize = window.innerWidth * 0.8;
-
-
   }else{
     canvasSize = window.innerHeight * 0.8;
-   
   }
   
   canvas.setAttribute('width',canvasSize);
   canvas.setAttribute('height',canvasSize);
 
   elementSize = canvasSize / 10;
- 
+
+
   startGame();
 }
 
@@ -53,7 +50,7 @@ function startGame(){
   const mapRowsCols = mapRows.map(row => row.trim().split(''));
   
  
-  game.clearRect(0,0,3000,3000); //canvasSize is undefined at this point, 3000 is used instead.
+  game.clearRect(0,0,canvasSize,canvasSize); 
   
   mapRowsCols.forEach((row,rowIndex) => {
     row.forEach((col,colIndex)=>{
@@ -84,25 +81,48 @@ function movePlayer(){
 
 function moveUp(){
   console.log('Moving up');
-  playerPosition.y -= elementSize;
-  startGame();
+  if((playerPosition.y) < elementSize){
+    console.log('OUT');
+  }else{
+    playerPosition.y -= elementSize;
+    startGame();
+    // console.log(playerPosition.y,(playerPosition.y - elementSize), canvasSize,elementSize);
+  }
 }
-function moveDown(){
-  console.log('Moving down');
-  playerPosition.y += elementSize;
-  startGame();
-}
+
 function moveLeft(){
   console.log('Moving left');
-  console.log('Moving down');
-  playerPosition.x -= elementSize;
-  startGame();
+  if((playerPosition.x) < elementSize){
+    console.log('OUT');
+  }else{
+    playerPosition.x -= elementSize;
+    startGame();
+  }
+  // console.log(playerPosition.x,(playerPosition.x - elementSize), canvasSize,elementSize);
+  
 }
+
 function moveRight(){
   console.log('Moving right');
+  if((playerPosition.x + elementSize) > canvasSize){
+    console.log('OUT');
+  }else{
+    playerPosition.x += elementSize;
+    startGame();
+  }
+  
+  // console.log(playerPosition.x,(playerPosition.x + elementSize), canvasSize,elementSize);
+}
+
+function moveDown(){
   console.log('Moving down');
-  playerPosition.x += elementSize;
-  startGame();
+  if((playerPosition.y + elementSize) > canvasSize){
+    console.log('OUT');
+  }else{
+    playerPosition.y += elementSize;
+    startGame();
+  }
+  // console.log(playerPosition.y, (playerPosition.y + elementSize), canvasSize,elementSize);
 }
 
 function moveByKeyboard(event){
