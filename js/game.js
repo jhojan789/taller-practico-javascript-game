@@ -2,6 +2,7 @@ const canvas = document.querySelector('.game');
 const game = canvas.getContext('2d');
 let canvasSize;
 let elementSize;
+let level = 0;
 const btnUp = document.getElementById('up');
 const btnDown = document.getElementById('down');
 const btnLeft = document.getElementById('left');
@@ -41,11 +42,11 @@ function setCanvasSize(){
   canvas.setAttribute('height',canvasSize);
 
   elementSize = canvasSize / 10;
-
+  startGame();
+  
+}
   
 
-  startGame();
-}
 
 function startGame(){
 
@@ -53,7 +54,15 @@ function startGame(){
   
   game.textAlign = 'end';
 
-  const map = maps[0];
+  const map = maps[level];
+
+  if(!map){
+    gameWin();
+    return;
+  }
+
+
+
   const mapRows = map.trim().split('\n');
   const mapRowsCols = mapRows.map(row => row.trim().split(''));
   
@@ -100,6 +109,7 @@ function movePlayer(){
   
   if(isGiftCollision){
     console.log('Gift collision');
+    levelWin();
   }
 
   const enemyCollision = enemyPositions.find(enemy =>{
@@ -171,8 +181,14 @@ function moveByKeyboard(event){
   else if(event.code == 'ArrowRight') moveRight();
 }
 
+function levelWin(){
+  level++;
+  startGame();
+}
 
-
+function gameWin(){
+  console.log('Game finished');
+}
 
 
 
