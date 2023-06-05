@@ -4,12 +4,15 @@ let canvasSize;
 let elementSize;
 let level = 0;
 let lives = 3;
+let starTime;
+let intervalTime;
 const btnUp = document.getElementById('up');
 const btnDown = document.getElementById('down');
 const btnLeft = document.getElementById('left');
 const btnRight = document.getElementById('right');
 
 const spanLives = document.getElementById('lives');
+const spanTime = document.getElementById('time');
 
 
 const playerPosition = {
@@ -43,14 +46,18 @@ function setCanvasSize(){
     canvasSize = window.innerHeight * 0.8;
   }
   
+  
   canvas.setAttribute('width',canvasSize);
   canvas.setAttribute('height',canvasSize);
 
   elementSize = canvasSize / 10;
+ 
+
   startGame();
   
 }
-  
+
+
 
 
 function startGame(){
@@ -66,7 +73,11 @@ function startGame(){
     return;
   }
 
+  if(!starTime){
+    starTime = Date.now();
+    intervalTime = setInterval(printTime,100);
 
+  }
 
   const mapRows = map.trim().split('\n');
   const mapRowsCols = mapRows.map(row => row.trim().split(''));
@@ -106,10 +117,9 @@ function startGame(){
   printLiveHearts();
 }
 
-
 function movePlayer(){
-  const isGiftCollisionX = giftPosition.x.toFixed(2) == playerPosition.x.toFixed(2);
-  const isGiftCollisionY = giftPosition.y.toFixed(2) == playerPosition.y.toFixed(2);
+  const isGiftCollisionX = giftPosition.x.toFixed(3) == playerPosition.x.toFixed(3);
+  const isGiftCollisionY = giftPosition.y.toFixed(3) == playerPosition.y.toFixed(3);
   const isGiftCollision = isGiftCollisionX && isGiftCollisionY; 
   
   if(isGiftCollision){
@@ -194,6 +204,7 @@ function levelWin(){
 
 function gameWin(){
   console.log('Game finished');
+  clearInterval(intervalTime);
 }
 
 function levelFail(){
@@ -203,6 +214,7 @@ function levelFail(){
   if(lives <= 0){
     level = 0;
     lives = 3;
+    starTime = undefined;
   }
 
   
@@ -221,5 +233,7 @@ function printLiveHearts(){
 
 }
 
-
+function printTime(){
+  spanTime.innerText = Date.now() - starTime; 
+}
 
