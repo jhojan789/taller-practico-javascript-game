@@ -9,6 +9,9 @@ const btnDown = document.getElementById('down');
 const btnLeft = document.getElementById('left');
 const btnRight = document.getElementById('right');
 
+const spanLives = document.getElementById('lives');
+
+
 const playerPosition = {
   x: undefined,
   y: undefined,
@@ -100,7 +103,7 @@ function startGame(){
   });
   
   movePlayer();
-  
+  printLiveHearts();
 }
 
 
@@ -144,7 +147,7 @@ function moveUp(){
 
 function moveLeft(){
   console.log('Moving left');
-  if((playerPosition.x) < elementSize){
+  if((playerPosition.x-elementSize) < elementSize){
     console.log('OUT');
   }else{
     playerPosition.x -= elementSize;
@@ -202,9 +205,20 @@ function levelFail(){
     lives = 3;
   }
 
+  
   playerPosition.x = undefined;
   playerPosition.y = undefined;
   startGame();
+}
+
+function printLiveHearts(){
+  const hearts = Array(lives).fill(emojis['HEART']);
+  spanLives.innerText = '';
+  hearts.forEach(heart =>{
+    spanLives.innerText += heart;
+
+  });
+
 }
 
 
