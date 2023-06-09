@@ -6,6 +6,8 @@ let level = 0;
 let lives = 3;
 let starTime;
 let intervalTime;
+let playerTime;
+
 const btnUp = document.getElementById('up');
 const btnDown = document.getElementById('down');
 const btnLeft = document.getElementById('left');
@@ -13,6 +15,8 @@ const btnRight = document.getElementById('right');
 
 const spanLives = document.getElementById('lives');
 const spanTime = document.getElementById('time');
+const spanRecord = document.getElementById('record');
+const pMessage = document.getElementById('message');
 
 
 const playerPosition = {
@@ -74,6 +78,7 @@ function startGame(){
   }
 
   if(!starTime){
+    spanRecord.innerText = localStorage.getItem('record_time');
     starTime = Date.now();
     intervalTime = setInterval(printTime,100);
 
@@ -146,7 +151,7 @@ function movePlayer(){
 
 function moveUp(){
   console.log('Moving up');
-  if((playerPosition.y) < elementSize){
+  if((playerPosition.y - elementSize) < elementSize){
     console.log('OUT');
   }else{
     playerPosition.y -= elementSize;
@@ -205,7 +210,24 @@ function levelWin(){
 function gameWin(){
   console.log('Game finished');
   clearInterval(intervalTime);
-}
+
+  const recordTime = localStorage.getItem('record_time');
+  
+  if(recordTime){
+    if(playerTime < recordTime){
+      localStorage.setItem('record_time',playerTime);
+      pMessage.innerText = 'You are so great, new record set';
+    }
+    else{
+      pMessage.innerText = 'The record was not achieved, try it again!!';
+    }
+  }else{
+    localStorage.setItem('record_time',playerTime);
+  }
+
+  console.log({recordTime});
+
+  }
 
 function levelFail(){
   lives--;
@@ -234,6 +256,7 @@ function printLiveHearts(){
 }
 
 function printTime(){
-  spanTime.innerText = Date.now() - starTime; 
+  playerTime = Date.now() - starTime
+  spanTime.innerText = playerTime; 
 }
 
