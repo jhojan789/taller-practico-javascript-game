@@ -50,12 +50,12 @@ function setCanvasSize(){
     canvasSize = window.innerHeight * 0.7;
   }
   
-  canvasSize = Number(canvasSize.toFixed(0));
+  canvasSize = fixeNumber(canvasSize);
   
   canvas.setAttribute('width',canvasSize);
   canvas.setAttribute('height',canvasSize);
 
-  elementSize = canvasSize / 10;
+  elementSize = fixeNumber(canvasSize / 10);
  
   playerPosition.x = undefined;
   playerPosition.y = undefined;
@@ -120,14 +120,17 @@ function startGame(){
       game.fillText(emoji,posX,posY);
     });
   });
-  
+
+  playerPosition.x = fixeNumber(playerPosition.x);
+  playerPosition.y = fixeNumber(playerPosition.y);
+
   movePlayer();
   printLiveHearts();
 }
 
 function movePlayer(){
-  const isGiftCollisionX = giftPosition.x.toFixed(3) == playerPosition.x.toFixed(3);
-  const isGiftCollisionY = giftPosition.y.toFixed(3) == playerPosition.y.toFixed(3);
+  const isGiftCollisionX = fixeNumber(giftPosition.x) == fixeNumber(playerPosition.x);
+  const isGiftCollisionY = fixeNumber(giftPosition.y) == fixeNumber(playerPosition.y);
   const isGiftCollision = isGiftCollisionX && isGiftCollisionY; 
   
   if(isGiftCollision){
@@ -136,8 +139,8 @@ function movePlayer(){
   }
 
   const enemyCollision = enemyPositions.find(enemy =>{
-    const enemyCollisionX = enemy.x.toFixed(3) == playerPosition.x.toFixed(3);
-    const enemyCollisionY = enemy.y.toFixed(3) == playerPosition.y.toFixed(3);
+    const enemyCollisionX = fixeNumber(enemy.x) == fixeNumber(playerPosition.x);
+    const enemyCollisionY = fixeNumber(enemy.y) == fixeNumber(playerPosition.y);
     return enemyCollisionX && enemyCollisionY;
   });
 
@@ -149,6 +152,7 @@ function movePlayer(){
 
   game.fillText(emojis['PLAYER'],playerPosition.x,playerPosition.y);
 
+  console.log(playerPosition.x, playerPosition.y);
 
 }
 
@@ -261,5 +265,9 @@ function printLiveHearts(){
 function printTime(){
   playerTime = Date.now() - starTime
   spanTime.innerText = playerTime; 
+}
+
+function fixeNumber(n){
+  return Number(n.toFixed(3));
 }
 
