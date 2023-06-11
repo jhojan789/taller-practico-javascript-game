@@ -12,6 +12,7 @@ const btnUp = document.getElementById('up');
 const btnDown = document.getElementById('down');
 const btnLeft = document.getElementById('left');
 const btnRight = document.getElementById('right');
+const btnNew = document.getElementById('new');
 
 const spanLives = document.getElementById('lives');
 const spanTime = document.getElementById('time');
@@ -36,10 +37,12 @@ btnUp.addEventListener('click', moveUp);
 btnDown.addEventListener('click', moveDown);
 btnLeft.addEventListener('click', moveLeft);
 btnRight.addEventListener('click', moveRight);
+btnNew.addEventListener('click', levelFail);
 
 window.addEventListener('keydown',moveByKeyboard);
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize',setCanvasSize);
+
 
 
 function setCanvasSize(){
@@ -63,8 +66,6 @@ function setCanvasSize(){
   startGame();
   
 }
-
-
 
 
 function startGame(){
@@ -233,8 +234,13 @@ function gameWin(){
   }
 
   console.log({recordTime});
+  btnNew.classList.remove('inactive');
 
   }
+
+
+
+
 
 function levelFail(){
   lives--;
@@ -249,6 +255,7 @@ function levelFail(){
   
   playerPosition.x = undefined;
   playerPosition.y = undefined;
+  btnNew.classList.add('inactive');
   startGame();
 }
 
