@@ -63,6 +63,7 @@ function setCanvasSize(){
   playerPosition.x = undefined;
   playerPosition.y = undefined;
 
+ 
   startGame();
   
 }
@@ -232,29 +233,27 @@ function gameWin(){
   }else{
     localStorage.setItem('record_time',playerTime);
   }
-
+  
   console.log({recordTime});
   btnNew.classList.remove('inactive');
-
-  }
-
-
-
-
+  
+}
 
 function levelFail(){
+  
   lives--;
   console.log(lives);
-
+  
   if(lives <= 0){
     level = 0;
     lives = 3;
     starTime = undefined;
   }
-
   
   playerPosition.x = undefined;
   playerPosition.y = undefined;
+
+ 
   btnNew.classList.add('inactive');
   startGame();
 }
@@ -270,11 +269,19 @@ function printLiveHearts(){
 }
 
 function printTime(){
-  playerTime = Date.now() - starTime
+  
+  let secs = ((Date.now() - starTime) / 1000).toFixed(1).split('.')[0];
+  let miliSecs = ((Date.now() - starTime) / 1000).toFixed(1).split('.')[1];
+
+  playerTime = `${secs} : ${miliSecs}`;
   spanTime.innerText = playerTime; 
 }
 
 function fixeNumber(n){
   return Number(n.toFixed(3));
+}
+
+function explodeEnemy(){
+
 }
 
